@@ -8,5 +8,8 @@
   },
   "keywords": [],
   "author": "Daniel Dunderfelt",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "^2.3.0"
+  }
 }
