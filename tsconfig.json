@@ -5,6 +5,7 @@
     "target": "es6",
     "lib": ["es6", "dom", "esnext"],
     "jsx": "react-native",
+    "sourceMap": true,
     "declaration": true,
     "skipLibCheck": true,
     "moduleResolution": "node",

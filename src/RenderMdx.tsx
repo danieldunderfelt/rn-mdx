@@ -1,27 +1,27 @@
-import React, {useMemo, useCallback} from 'react'
+import React, { useMemo } from 'react'
 import components from './markdownComponents'
+import { ThemeContext } from './ThemeContext'
+import { CalcRoot } from './utils/calc'
+import MDX from '@mdx-js/runtime'
+import { styles } from './style/styles'
+
+const defaultScope = {}
 
 export function RenderMdx({ children, style = {}, scope = {}, componentStyle = {} }) {
-  const defaultComponents = useMemo(() => components(styles()), [IS_TABLET])
-
-  const Custom = useCallback(
-    props => <CustomComponent wrapper={defaultComponents.wrapper} {...props} />,
-    [defaultComponents]
-  )
-
-  const contentScope = merge({}, defaultScope, scope)
+  const defaultComponents = useMemo(() => components(styles(componentStyle)), [componentStyle])
+  const contentScope = {...defaultScope, ...scope}
 
   if (!children) {
     return null
   }
 
   return (
-    <ContentView style={style}>
+    <CalcRoot style={style}>
       <ThemeContext.Provider value={componentStyle}>
-        <MDX components={mdxComponents} scope={contentScope}>
+        <MDX components={defaultComponents} scope={contentScope}>
           {children}
         </MDX>
       </ThemeContext.Provider>
-    </ContentView>
+    </CalcRoot>
   )
 }

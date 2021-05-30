@@ -19,6 +19,7 @@
   "author": "Daniel Dunderfelt",
   "license": "MIT",
   "devDependencies": {
+    "@types/mdx-js__react": "^1.5.3",
     "@types/react": "^17.0.8",
     "@types/react-native": "^0.61.0",
     "@typescript-eslint/eslint-plugin": "^4.22.1",
@@ -36,5 +37,9 @@
   "peerDependencies": {
     "react": "^17.0.2",
     "react-native": "^0.61.0"
+  },
+  "dependencies": {
+    "@mdx-js/runtime": "^1.6.22",
+    "react-native-fit-image": "^1.5.5"
   }
 }

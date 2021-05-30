@@ -1,8 +1,12 @@
-import React, { Children } from 'react'
+import React, { Children, useCallback, useContext, useRef } from 'react'
+import { Text, TouchableOpacity, View } from 'react-native'
+import openUrl from './utils/openUrl'
+import { useStyleContext } from './ThemeContext'
+import FitImage from 'react-native-fit-image'
 
 function wrapChildren(children, textProps) {
   return Children.map(children, child =>
-    typeof child === 'string' ? <Typography {...textProps}>{child}</Typography> : child
+    typeof child === 'string' ? <Text {...textProps}>{child}</Text> : child
   )
 }
 
@@ -12,13 +16,10 @@ const ListStyleContext = React.createContext<{ style: string; getIndex?: () => n
 })
 
 const components = styles => {
-  const defaultColor = styles.text.color || colors.blueDark
-  let defaultTextSize = TextSize.BODY
-
   return {
     div: ({ children }) => {
       const contextStyle = useStyleContext(styles)
-      return <ViewText style={contextStyle.div}>{children}</ViewText>
+      return <View style={contextStyle.div}>{children}</View>
     },
     wrapper: ({ children }) => {
       let prevChildTypes = ['root']
@@ -29,9 +30,9 @@ const components = styles => {
           return child
         }
 
-        const prevSibling = last(prevChildTypes)
+        const prevSibling = prevChildTypes[prevChildTypes.length - 1]
         const mdxType = child.props.mdxType || 'element'
-        const firstOfType = prevChildTypes[prevChildTypes.length - 1] !== mdxType
+        const isFirstOfType = prevChildTypes[prevChildTypes.length - 1] !== mdxType
 
         prevChildTypes.push(mdxType)
 
@@ -42,7 +43,7 @@ const components = styles => {
             index,
             firstChild: index === 0,
             lastChild: index === childrenCount - 1,
-            firstOfType,
+            firstOfType: isFirstOfType,
             prevSibling: prevSibling,
           },
           child.props.children
@@ -51,114 +52,55 @@ const components = styles => {
     },
     textgroup: ({ children }) => {
       const contextStyle = useStyleContext(styles)
-
-      return (
-        <Typography
-          size={get(contextStyle, 'text.fontSize', defaultTextSize)}
-          color={contextStyle.text.color || defaultColor}
-          style={contextStyle.text}>
-          {children}
-        </Typography>
-      )
+      return <Text style={contextStyle.text}>{children}</Text>
     },
     inline: ({ children }) => {
       const contextStyle = useStyleContext(styles)
-      return (
-        <Typography
-          serif={true}
-          size={get(contextStyle, 'text.fontSize', defaultTextSize)}
-          color={contextStyle.text.color || defaultColor}
-          style={contextStyle.text}>
-          {children}
-        </Typography>
-      )
+      return <Text style={[contextStyle.text, contextStyle.inline]}>{children}</Text>
     },
     text: ({ children }) => {
       const contextStyle = useStyleContext(styles)
-      return (
-        <Typography
-          serif={true}
-          style={contextStyle.text}
-          size={get(contextStyle, 'text.fontSize', defaultTextSize)}
-          color={contextStyle.text.color || defaultColor}>
-          {children}
-        </Typography>
-      )
+      return <Text style={contextStyle.text}>{children}</Text>
     },
     span: ({ children }) => {
       const contextStyle = useStyleContext(styles)
-      return (
-        <Typography
-          serif={true}
-          style={contextStyle.text}
-          color={contextStyle.text.color || defaultColor}
-          size={get(contextStyle, 'text.fontSize', defaultTextSize)}>
-          {children}
-        </Typography>
-      )
+      return <Text style={contextStyle.text}>{children}</Text>
     },
     strong: ({ children }) => {
       const contextStyle = useStyleContext(styles)
-      return (
-        <Typography
-          serif={true}
-          weight={TextWeight.BOLD}
-          color={contextStyle.text.color || defaultColor}
-          size={get(contextStyle, 'text.fontSize', defaultTextSize)}
-          style={[contextStyle.text, contextStyle.strong]}>
-          {children}
-        </Typography>
-      )
+      return <Text style={[contextStyle.text, contextStyle.strong]}>{children}</Text>
     },
     a: ({ href, children }) => {
       const contextStyle = useStyleContext(styles)
 
       return (
         <TouchableOpacity
-          style={[contextStyle.link, { color: contextStyle.text.color || defaultColor }]}
+          style={[contextStyle.link, { color: contextStyle.text.color }]}
           onPress={() => openUrl(href)}>
-          <Typography
-            style={contextStyle.text}
-            color={contextStyle.text.color || defaultColor}
-            size={get(contextStyle, 'text.fontSize', defaultTextSize)}>
-            {children}
-          </Typography>
+          <Text style={[contextStyle.text, contextStyle.linkLabel]}>{children}</Text>
         </TouchableOpacity>
       )
     },
     em: ({ children }) => {
       const contextStyle = useStyleContext(styles)
 
-      return (
-        <Typography
-          serif={true}
-          italic={true}
-          color={contextStyle.text.color || defaultColor}
-          size={get(contextStyle, 'text.fontSize', defaultTextSize)}
-          style={[contextStyle.text, contextStyle.em]}>
-          {children}
-        </Typography>
-      )
+      return <Text style={[contextStyle.text, contextStyle.em]}>{children}</Text>
     },
     h1: ({ children, index }) => {
       const contextStyle = useStyleContext(styles)
       const isFirst = index === 0
 
       return (
-        <ViewText
+        <View
           style={[
             contextStyle.headingContainer,
             contextStyle.headingBorder,
             isFirst ? { marginTop: 0 } : {},
           ]}>
-          <Typography
-            style={[contextStyle.text, contextStyle.heading, contextStyle.heading1]}
-            weight={TextWeight.BLACK}
-            color={contextStyle.text.color || defaultColor}
-            size={TextSize.HEADING}>
+          <Text style={[contextStyle.text, contextStyle.heading, contextStyle.heading1]}>
             {children}
-          </Typography>
-        </ViewText>
+          </Text>
+        </View>
       )
     },
     h2: ({ children, index }) => {
@@ -166,20 +108,16 @@ const components = styles => {
       const isFirst = index === 0
 
       return (
-        <ViewText
+        <View
           style={[
             contextStyle.headingContainer,
             contextStyle.headingBorder,
             isFirst ? { marginTop: 0 } : {},
           ]}>
-          <Typography
-            style={[contextStyle.text, contextStyle.heading, contextStyle.heading2]}
-            weight={TextWeight.BOLD}
-            color={contextStyle.text.color || defaultColor}
-            size={TextSize.LARGE}>
+          <Text style={[contextStyle.text, contextStyle.heading, contextStyle.heading2]}>
             {children}
-          </Typography>
-        </ViewText>
+          </Text>
+        </View>
       )
     },
     h3: ({ children, index }) => {
@@ -187,16 +125,11 @@ const components = styles => {
       const isFirst = index === 0
 
       return (
-        <ViewText
-          style={[contextStyle.headingContainer, isFirst ? { marginTop: 0 } : {}]}>
-          <Typography
-            style={[contextStyle.text, contextStyle.heading, contextStyle.heading3]}
-            weight={TextWeight.REGULAR}
-            color={contextStyle.text.color || defaultColor}
-            size={TextSize.LARGE}>
+        <View style={[contextStyle.headingContainer, isFirst ? { marginTop: 0 } : {}]}>
+          <Text style={[contextStyle.text, contextStyle.heading, contextStyle.heading3]}>
             {children}
-          </Typography>
-        </ViewText>
+          </Text>
+        </View>
       )
     },
     h4: ({ children, index }) => {
@@ -204,47 +137,33 @@ const components = styles => {
       const isFirst = index === 0
 
       return (
-        <ViewText
-          style={[contextStyle.headingContainer, isFirst ? { marginTop: 0 } : {}]}>
-          <Typography
-            style={[contextStyle.text, contextStyle.heading, contextStyle.heading4]}
-            weight={TextWeight.BOLD}
-            color={contextStyle.text.color || defaultColor}
-            size={TextSize.MEDIUM}>
+        <View style={[contextStyle.headingContainer, isFirst ? { marginTop: 0 } : {}]}>
+          <Text style={[contextStyle.text, contextStyle.heading, contextStyle.heading4]}>
             {children}
-          </Typography>
-        </ViewText>
+          </Text>
+        </View>
       )
     },
     h5: ({ children }) => {
       const contextStyle = useStyleContext(styles)
 
       return (
-        <ViewText style={contextStyle.headingContainer}>
-          <Typography
-            style={[contextStyle.text, contextStyle.heading, contextStyle.heading5]}
-            weight={TextWeight.REGULAR}
-            color={contextStyle.text.color || defaultColor}
-            size={TextSize.MEDIUM}>
+        <View style={contextStyle.headingContainer}>
+          <Text style={[contextStyle.text, contextStyle.heading, contextStyle.heading5]}>
             {children}
-          </Typography>
-        </ViewText>
+          </Text>
+        </View>
       )
     },
     h6: ({ children }) => {
       const contextStyle = useStyleContext(styles)
 
       return (
-        <ViewText style={contextStyle.headingContainer}>
-          <Typography
-            serif={true}
-            style={[contextStyle.text, contextStyle.heading, contextStyle.heading6]}
-            weight={TextWeight.BOLD}
-            color={contextStyle.text.color || defaultColor}
-            size={TextSize.BODY}>
+        <View style={contextStyle.headingContainer}>
+          <Text style={[contextStyle.text, contextStyle.heading, contextStyle.heading6]}>
             {children}
-          </Typography>
-        </ViewText>
+          </Text>
+        </View>
       )
     },
     p: ({ children, index }) => {
@@ -255,10 +174,6 @@ const components = styles => {
         <Text style={[contextStyle.paragraph, isFirst ? { marginTop: 0 } : {}]}>
           {wrapChildren(children, {
             style: [contextStyle.text, contextStyle.paragraphText],
-            serif: false,
-            color: contextStyle.text.color || defaultColor,
-            size: defaultTextSize,
-            weight: TextWeight.REGULAR,
           })}
         </Text>
       )
@@ -267,93 +182,46 @@ const components = styles => {
       const contextStyle = useStyleContext(styles)
 
       const wrappedChildren = wrapChildren(children, {
-        serif: true,
         style: contextStyle.text,
-        color: contextStyle.text.color || defaultColor,
-        size: get(
-          contextStyle,
-          'paragraph.fontSize',
-          get(contextStyle, 'text.fontSize', defaultTextSize)
-        ),
-        weight: TextWeight.REGULAR,
       })
 
       return (
-        <ViewText
-          style={[
-            contextStyle.blockquote,
-            firstOfType ? { marginTop: 20 } : { marginTop: -40 },
-          ]}>
+        <View
+          style={[contextStyle.blockquote, firstOfType ? { marginTop: 20 } : { marginTop: -40 }]}>
           {wrappedChildren}
-        </ViewText>
+        </View>
       )
     },
     inlineCode: ({ children }) => {
       const contextStyle = useStyleContext(styles)
 
       // TODO: Use another font here
-      return (
-        <Typography
-          serif={true}
-          color={contextStyle.text.color || defaultColor}
-          size={get(
-            contextStyle,
-            'paragraph.fontSize',
-            get(contextStyle, 'text.fontSize', defaultTextSize)
-          )}
-          style={[contextStyle.text, contextStyle.codeInline]}>
-          {children}
-        </Typography>
-      )
+      return <Text style={[contextStyle.text, contextStyle.codeInline]}>{children}</Text>
     },
     code: ({ children }) => {
       const contextStyle = useStyleContext(styles)
 
       // TODO: Use another font here
-      return (
-        <Typography
-          serif={true}
-          color={contextStyle.text.color || defaultColor}
-          size={get(
-            contextStyle,
-            'paragraph.fontSize',
-            get(contextStyle, 'text.fontSize', defaultTextSize)
-          )}
-          style={[contextStyle.text, contextStyle.codeBlock]}>
-          {children}
-        </Typography>
-      )
+      return <Text style={[contextStyle.text, contextStyle.codeBlock]}>{children}</Text>
     },
     pre: ({ children }) => {
       const contextStyle = useStyleContext(styles)
 
       return (
-        // TODO: Use another font here
-        <ViewText style={contextStyle.pre}>
-          <Typography
-            serif={true}
-            style={contextStyle.text}
-            color={contextStyle.text.color || defaultColor}
-            size={get(
-              contextStyle,
-              'paragraph.fontSize',
-              get(contextStyle, 'text.fontSize', defaultTextSize)
-            )}
-            weight={TextWeight.REGULAR}>
-            {children}
-          </Typography>
-        </ViewText>
+        <View style={contextStyle.pre}>
+          <Text style={contextStyle.text}>{children}</Text>
+        </View>
       )
     },
     ul: ({ children }) => {
       const contextStyle = useStyleContext(styles)
 
       return (
-        <ViewText style={[contextStyle.list, contextStyle.listUnordered]}>
+        <View style={[contextStyle.list, contextStyle.listUnordered]}>
           <ListStyleContext.Provider value={{ style: 'unordered', getIndex: () => 0 }}>
             {children}
           </ListStyleContext.Provider>
-        </ViewText>
+        </View>
       )
     },
     ol: ({ children }) => {
@@ -362,11 +230,11 @@ const components = styles => {
       const getItemIndex = useCallback(() => ++itemIndex.current, [])
 
       return (
-        <ViewText style={[contextStyle.list, contextStyle.listOrdered]}>
+        <View style={[contextStyle.list, contextStyle.listOrdered]}>
           <ListStyleContext.Provider value={{ style: 'ordered', getIndex: getItemIndex }}>
             {children}
           </ListStyleContext.Provider>
-        </ViewText>
+        </View>
       )
     },
     li: ({ children }) => {
@@ -374,104 +242,73 @@ const components = styles => {
       const { style, getIndex = () => 0 } = useContext(ListStyleContext)
 
       return (
-        <ViewText
+        <View
           style={
-            style === 'unordered'
-              ? contextStyle.listUnorderedItem
-              : contextStyle.listOrderedItem
+            style === 'unordered' ? contextStyle.listUnorderedItem : contextStyle.listOrderedItem
           }>
           {style === 'unordered' ? (
-            <ViewText
+            <View
               style={[
                 contextStyle.listUnorderedItemIcon,
                 {
                   backgroundColor:
-                    contextStyle.listUnorderedItemIcon.backgroundColor ||
-                    contextStyle.text.color ||
-                    defaultColor,
+                    contextStyle.listUnorderedItemIcon.backgroundColor || contextStyle.text.color,
                 },
               ]}
             />
           ) : (
-            <ViewText style={contextStyle.listOrderedItemIcon}>
-              <Typography serif={true} color={contextStyle.text.color || defaultColor}>
-                {getIndex()}.
-              </Typography>
-            </ViewText>
+            <View style={contextStyle.listOrderedItemIcon}>
+              <Text>{getIndex()}.</Text>
+            </View>
           )}
           <Text style={[contextStyle.listItem]}>
-            <Typography
-              serif={true}
-              style={[contextStyle.text, contextStyle.listItemText]}
-              color={contextStyle.text.color || defaultColor}
-              size={get(
-                contextStyle,
-                'paragraph.fontSize',
-                get(contextStyle, 'text.fontSize', defaultTextSize)
-              )}
-              weight={TextWeight.REGULAR}>
-              {children}
-            </Typography>
+            <Text style={[contextStyle.text, contextStyle.listItemText]}>{children}</Text>
           </Text>
-        </ViewText>
+        </View>
       )
     },
     table: ({ children }) => {
       const contextStyle = useStyleContext(styles)
-      return <ViewText style={[contextStyle.table]}>{children}</ViewText>
+      return <View style={[contextStyle.table]}>{children}</View>
     },
     thead: ({ children }) => {
       const contextStyle = useStyleContext(styles)
-      return <ViewText style={[contextStyle.tableHeader]}>{children}</ViewText>
+      return <View style={[contextStyle.tableHeader]}>{children}</View>
     },
     tbody: ({ children }) => {
       const contextStyle = useStyleContext(styles)
-      return <ViewText style={contextStyle.tableBody}>{children}</ViewText>
+      return <View style={contextStyle.tableBody}>{children}</View>
     },
     th: ({ children }) => {
       const contextStyle = useStyleContext(styles)
 
       return (
-        <ViewText style={[contextStyle.tableHeaderCell]}>
-          <Typography
-            style={contextStyle.text}
-            color={contextStyle.text.color || defaultColor}
-            size={TextSize.BODY}
-            weight={TextWeight.REGULAR}>
-            {children}
-          </Typography>
-        </ViewText>
+        <View style={[contextStyle.tableHeaderCell]}>
+          <Text style={contextStyle.text}>{children}</Text>
+        </View>
       )
     },
     tr: ({ children }) => {
       const contextStyle = useStyleContext(styles)
-      return <ViewText style={[contextStyle.tableRow]}>{children}</ViewText>
+      return <View style={[contextStyle.tableRow]}>{children}</View>
     },
     td: ({ children }) => {
       const contextStyle = useStyleContext(styles)
 
       return (
-        <ViewText style={[contextStyle.tableRowCell]}>
-          <Typography
-            style={contextStyle.text}
-            color={contextStyle.text.color || defaultColor}
-            size={TextSize.BODY}
-            weight={TextWeight.REGULAR}>
-            {children}
-          </Typography>
-        </ViewText>
+        <View style={[contextStyle.tableRowCell]}>
+          <Text style={contextStyle.text}>{children}</Text>
+        </View>
       )
     },
-    hr: ({ children }) => {
+    hr: () => {
       const contextStyle = useStyleContext(styles)
-      return <ViewText style={[contextStyle.hr]} />
+      return <View style={[contextStyle.hr]} />
     },
-    br: ({ children }) => <Text>{'\n'}</Text>,
-    img: ({ src, children }) => {
+    br: () => <Text>{'\n'}</Text>,
+    img: ({ src }) => {
       const contextStyle = useStyleContext(styles)
-      return (
-        <FitImage indicator={true} style={contextStyle.image} source={{ uri: src }} />
-      )
+      return <FitImage indicator={true} style={contextStyle.image} source={{ uri: src }} />
     },
   }
 }

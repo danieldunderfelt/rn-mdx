@@ -1,12 +1,168 @@
-import { StyleProp, StyleSheet } from 'react-native'
-import { colors } from '../../style/colors'
-import { createBaseSize, getLineHeightValue } from '../../style/Typography'
-import { rem } from '../calc'
+import { Platform, StyleSheet } from 'react-native'
+import { rem } from '../utils/calc'
 
-export const styles = (): { [key: string]: StyleProp<any> } => {
+function platformValue(val: number) {
+  if (Platform.OS === 'ios') {
+    return val * 1.15
+  }
+
+  return val
+}
+
+export function getLineHeightValue(val: number) {
+  if (Platform.OS === 'ios') {
+    return val * 1.05
+  }
+
+  return val
+}
+
+let BaseTextSize = {
+  DETAIL: platformValue(10),
+  SMALL: platformValue(13),
+  BODY_SMALL: platformValue(16),
+  BODY: platformValue(20),
+  BODY_LARGE: platformValue(22),
+  MEDIUM: platformValue(24),
+  LARGE: platformValue(28),
+  HEADING: platformValue(40),
+}
+
+export let TextSize = {
+  DETAIL: rem(BaseTextSize.DETAIL),
+  SMALL: rem(BaseTextSize.SMALL),
+  BODY_SMALL: rem(BaseTextSize.BODY_SMALL),
+  BODY: rem(BaseTextSize.BODY),
+  BODY_LARGE: rem(BaseTextSize.BODY_LARGE),
+  MEDIUM: rem(BaseTextSize.MEDIUM),
+  LARGE: rem(BaseTextSize.LARGE),
+  HEADING: rem(BaseTextSize.HEADING),
+}
+
+export function createBaseSize() {
+  BaseTextSize = {
+    DETAIL: platformValue(10),
+    SMALL: platformValue(13),
+    BODY_SMALL: platformValue(16),
+    BODY: platformValue(18),
+    BODY_LARGE: platformValue(20),
+    MEDIUM: platformValue(22),
+    LARGE: platformValue(28),
+    HEADING: platformValue(40),
+  }
+
+  TextSize = {
+    DETAIL: rem(BaseTextSize.DETAIL),
+    SMALL: rem(BaseTextSize.SMALL),
+    BODY_SMALL: rem(BaseTextSize.BODY_SMALL),
+    BODY: rem(BaseTextSize.BODY),
+    BODY_LARGE: rem(BaseTextSize.BODY_LARGE),
+    MEDIUM: rem(BaseTextSize.MEDIUM),
+    LARGE: rem(BaseTextSize.LARGE),
+    HEADING: rem(BaseTextSize.HEADING),
+  }
+
+  return { BaseTextSize, TextSize }
+}
+
+type MarkdownStyles = {
+  headingBorder?: { paddingBottom: number }
+  linkLabel?: {}
+  paragraph?: { marginBottom: number; marginTop: number }
+  strong?: { fontWeight: string }
+  link?: {}
+  listOrdered?: {}
+  del?: { backgroundColor: string }
+  hr?: { backgroundColor: string; height: number }
+  tableRow?: { borderColor: string; flexDirection: string; borderBottomWidth: number }
+  tableHeaderCell?: { padding: number; flex: number }
+  div?: {}
+  hardbreak?: { width: string; height: number }
+  view?: {}
+  listUnorderedItemText?: { lineHeight: number }
+  listOrderedItemIcon?: {
+    marginRight: number
+    alignSelf: string
+    minWidth: number
+    justifyContent: string
+    marginLeft: number
+  }
+  codeBlock?: {
+    padding: number
+    borderColor: string
+    backgroundColor: string
+    borderRadius: number
+    borderWidth: number
+  }
+  codeInline?: {
+    padding: number
+    borderColor: string
+    backgroundColor: string
+    borderRadius: number
+    borderWidth: number
+  }
+  root?: {}
+  listItemText?: {}
+  listUnordered?: { marginBottom: number }
+  text?: {}
+  strikethrough?: { textDecorationLine: string }
+  table?: { borderColor: string; borderRadius: number; borderWidth: number }
+  listUnorderedItemIcon?: {
+    marginRight: number
+    alignSelf: string
+    borderRadius: number
+    width: number
+    aspectRatio: number
+    lineHeight: number
+    marginTop: number
+    marginLeft: number
+  }
+  listItem?: { flexWrap: string; marginVertical: number; flex: number }
+  tableBody?: {}
+  tableRowCell?: { padding: number; flex: number }
+  image?: { flex: number }
+  blockquote?: {
+    paddingVertical: number
+    marginHorizontal: number
+    backgroundColor: string
+    paddingHorizontal: number
+    marginBottom: number
+    lineHeight: number
+    marginTop: number
+  }
+  listOrderedItem?: { alignItems: string; flexDirection: string; justifyContent: string }
+  paragraphText?: { fontSize: number; lineHeight: number }
+  pre?: {}
+  heading?: {}
+  heading1?: { fontSize: number; lineHeight: number }
+  em?: { lineHeight: number }
+  list?: {}
+  tableHeader?: {}
+  headingContainer?: {
+    marginHorizontal: number
+    flexDirection: string
+    paddingHorizontal: number
+    marginBottom: number
+    marginTop: number
+  }
+  heading2?: { fontSize: number; lineHeight: number }
+  heading3?: { fontSize: number; lineHeight: number }
+  heading4?: { fontSize: number; lineHeight: number }
+  heading5?: { fontSize: number; lineHeight: number }
+  heading6?: { fontSize: number; lineHeight: number }
+  inlineCode?: {
+    fontFamily: string
+    borderRadius: number
+    borderWidth: number
+    fontWeight: string
+  }
+  listUnorderedItem?: { alignItems: string; flexDirection: string; justifyContent: string }
+}
+
+export const styles = (userStyles: MarkdownStyles = {}): MarkdownStyles => {
   let { TextSize } = createBaseSize()
 
-  return StyleSheet.create({
+  let defaultStyles: MarkdownStyles = StyleSheet.create({
     root: {},
     view: {},
     text: {},
@@ -28,7 +184,6 @@ export const styles = (): { [key: string]: StyleProp<any> } => {
       backgroundColor: '#000000',
     },
     em: {
-      fontFamily: 'barlow-regular-italic',
       lineHeight: rem(TextSize.BODY * getLineHeightValue(1.6)),
     },
     headingContainer: {
@@ -40,9 +195,6 @@ export const styles = (): { [key: string]: StyleProp<any> } => {
     },
     headingBorder: {
       paddingBottom: 5,
-      borderColor: colors.greyDark,
-      borderStyle: 'solid',
-      borderBottomWidth: StyleSheet.hairlineWidth,
     },
     heading: {},
     heading1: {
@@ -88,9 +240,7 @@ export const styles = (): { [key: string]: StyleProp<any> } => {
       fontFamily: 'Courier',
       fontWeight: 'bold',
     },
-    list: {
-      ...this.view,
-    },
+    list: {},
     listItem: {
       flex: 1,
       flexWrap: 'wrap',
@@ -118,7 +268,6 @@ export const styles = (): { [key: string]: StyleProp<any> } => {
     },
     listUnorderedItemText: {
       lineHeight: rem(TextSize.BODY * getLineHeightValue(1.6)),
-      fontFamily: 'barlow-regular',
     },
     listOrdered: {},
     listOrderedItem: {
@@ -133,12 +282,8 @@ export const styles = (): { [key: string]: StyleProp<any> } => {
       alignSelf: 'flex-start',
       justifyContent: 'flex-start',
     },
-    listItemText: {
-      fontFamily: 'barlow-regular',
-    },
-    div: {
-      ...this.view,
-    },
+    listItemText: {},
+    div: {},
     paragraph: {
       marginTop: 5,
       marginBottom: 10,
@@ -179,8 +324,11 @@ export const styles = (): { [key: string]: StyleProp<any> } => {
     },
     pre: {},
     link: {},
+    linkLabel: {},
     image: {
       flex: 1,
     },
   })
+
+  return { ...defaultStyles, ...userStyles }
 }
