@@ -2,14 +2,39 @@
   "name": "rn-mdx",
   "version": "0.0.0",
   "description": "Show MDX content in React-Native. Expo compatible.",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "module": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "format": "prettier --write \"**/*.{tsx,ts,js,json}\"",
+    "lint": "eslint '**/*.{js,ts,tsx}'",
+    "lint:fix": "eslint '**/*.{js,ts,tsx}' --quiet --fix"
   },
+  "files": [
+    "lib/**/*"
+  ],
   "keywords": [],
   "author": "Daniel Dunderfelt",
   "license": "MIT",
   "devDependencies": {
-    "prettier": "^2.3.0"
+    "@types/react": "^17.0.8",
+    "@types/react-native": "^0.61.0",
+    "@typescript-eslint/eslint-plugin": "^4.22.1",
+    "@typescript-eslint/parser": "^4.22.1",
+    "eslint": "^7.27.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.23.2",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-react-native": "^3.11.0",
+    "prettier": "^2.3.0",
+    "react": "^17.0.2",
+    "typescript": "^4.3.2"
+  },
+  "peerDependencies": {
+    "react": "^17.0.2",
+    "react-native": "^0.61.0"
   }
 }

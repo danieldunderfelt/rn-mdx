@@ -1,0 +1,52 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "env": {
+    "browser": true,
+    "react-native/react-native": true
+  },
+  "plugins": ["react", "react-native", "react-hooks"],
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "prettier"
+  ],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "rules": {
+    "prefer-const": 0,
+    "no-var": 0,
+    "block-scoped-var": 0,
+    "@typescript-eslint/no-unused-vars": 0,
+    "@typescript-eslint/no-non-null-assertion": 0,
+    "@typescript-eslint/explicit-module-boundary-types": 0,
+    "@typescript-eslint/no-inferrable-types": 0,
+    "@typescript-eslint/no-explicit-any": [
+      "error",
+      { "ignoreRestArgs": true, "fixToUnknown": true }
+    ],
+    "@typescript-eslint/no-empty-function": 0,
+    "@typescript-eslint/ban-ts-comment": 0,
+    "react-hooks/exhaustive-deps": "off",
+    "no-unexpected-multiline": "off",
+    "no-restricted-globals": "off",
+    "no-redeclare": "off",
+    "no-empty-function": "off",
+    "react/display-name": "off",
+    "react/prop-types": "off"
+  }
+}
