@@ -1,6 +1,6 @@
 {
   "name": "rn-mdx",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Show MDX content in React-Native. Expo compatible.",
   "main": "lib/index.js",
   "scripts": {
