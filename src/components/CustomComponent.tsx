@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import { merge } from 'lodash'
 import { ThemeContext } from '../ThemeContext'
 import { ReactChildProp } from '../types'
 
@@ -21,7 +20,7 @@ const CustomComponent = ({
     return <MdxWrapper>{children}</MdxWrapper>
   }
 
-  const nextTheme = merge({}, theme, childStyles)
+  const nextTheme = { ...theme, ...childStyles }
 
   return (
     <ThemeContext.Provider value={nextTheme}>

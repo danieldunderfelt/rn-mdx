@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "outDir": "lib",
-    "module": "esnext",
+    "module": "es6",
     "target": "es6",
-    "lib": ["es6", "dom", "esnext"],
+    "lib": ["dom", "esnext"],
     "jsx": "react-native",
     "sourceMap": true,
     "declaration": true,
