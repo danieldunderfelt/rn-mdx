@@ -1,5 +1,4 @@
-import { Platform, StyleSheet } from 'react-native'
-import { rem } from '../utils/calc'
+import { ImageStyle, Platform, StyleProp, StyleSheet, TextStyle, ViewStyle } from 'react-native'
 
 function platformValue(val: number) {
   if (Platform.OS === 'ios') {
@@ -29,14 +28,14 @@ let BaseTextSize = {
 }
 
 export let TextSize = {
-  DETAIL: rem(BaseTextSize.DETAIL),
-  SMALL: rem(BaseTextSize.SMALL),
-  BODY_SMALL: rem(BaseTextSize.BODY_SMALL),
-  BODY: rem(BaseTextSize.BODY),
-  BODY_LARGE: rem(BaseTextSize.BODY_LARGE),
-  MEDIUM: rem(BaseTextSize.MEDIUM),
-  LARGE: rem(BaseTextSize.LARGE),
-  HEADING: rem(BaseTextSize.HEADING),
+  DETAIL: BaseTextSize.DETAIL,
+  SMALL: BaseTextSize.SMALL,
+  BODY_SMALL: BaseTextSize.BODY_SMALL,
+  BODY: BaseTextSize.BODY,
+  BODY_LARGE: BaseTextSize.BODY_LARGE,
+  MEDIUM: BaseTextSize.MEDIUM,
+  LARGE: BaseTextSize.LARGE,
+  HEADING: BaseTextSize.HEADING,
 }
 
 export function createBaseSize() {
@@ -52,128 +51,81 @@ export function createBaseSize() {
   }
 
   TextSize = {
-    DETAIL: rem(BaseTextSize.DETAIL),
-    SMALL: rem(BaseTextSize.SMALL),
-    BODY_SMALL: rem(BaseTextSize.BODY_SMALL),
-    BODY: rem(BaseTextSize.BODY),
-    BODY_LARGE: rem(BaseTextSize.BODY_LARGE),
-    MEDIUM: rem(BaseTextSize.MEDIUM),
-    LARGE: rem(BaseTextSize.LARGE),
-    HEADING: rem(BaseTextSize.HEADING),
+    DETAIL: BaseTextSize.DETAIL,
+    SMALL: BaseTextSize.SMALL,
+    BODY_SMALL: BaseTextSize.BODY_SMALL,
+    BODY: BaseTextSize.BODY,
+    BODY_LARGE: BaseTextSize.BODY_LARGE,
+    MEDIUM: BaseTextSize.MEDIUM,
+    LARGE: BaseTextSize.LARGE,
+    HEADING: BaseTextSize.HEADING,
   }
 
   return { BaseTextSize, TextSize }
 }
 
-type MarkdownStyles = {
-  headingBorder?: { paddingBottom: number }
-  linkLabel?: {}
-  paragraph?: { marginBottom: number; marginTop: number }
-  strong?: { fontWeight: string }
-  link?: {}
-  listOrdered?: {}
-  del?: { backgroundColor: string }
-  hr?: { backgroundColor: string; height: number }
-  tableRow?: { borderColor: string; flexDirection: string; borderBottomWidth: number }
-  tableHeaderCell?: { padding: number; flex: number }
-  div?: {}
-  hardbreak?: { width: string; height: number }
-  view?: {}
-  listUnorderedItemText?: { lineHeight: number }
-  listOrderedItemIcon?: {
-    marginRight: number
-    alignSelf: string
-    minWidth: number
-    justifyContent: string
-    marginLeft: number
-  }
-  codeBlock?: {
-    padding: number
-    borderColor: string
-    backgroundColor: string
-    borderRadius: number
-    borderWidth: number
-  }
-  codeInline?: {
-    padding: number
-    borderColor: string
-    backgroundColor: string
-    borderRadius: number
-    borderWidth: number
-  }
-  root?: {}
-  listItemText?: {}
-  listUnordered?: { marginBottom: number }
-  text?: {}
-  strikethrough?: { textDecorationLine: string }
-  table?: { borderColor: string; borderRadius: number; borderWidth: number }
-  listUnorderedItemIcon?: {
-    marginRight: number
-    alignSelf: string
-    borderRadius: number
-    width: number
-    aspectRatio: number
-    lineHeight: number
-    marginTop: number
-    marginLeft: number
-  }
-  listItem?: { flexWrap: string; marginVertical: number; flex: number }
-  tableBody?: {}
-  tableRowCell?: { padding: number; flex: number }
-  image?: { flex: number }
-  blockquote?: {
-    paddingVertical: number
-    marginHorizontal: number
-    backgroundColor: string
-    paddingHorizontal: number
-    marginBottom: number
-    lineHeight: number
-    marginTop: number
-  }
-  listOrderedItem?: { alignItems: string; flexDirection: string; justifyContent: string }
-  paragraphText?: { fontSize: number; lineHeight: number }
-  pre?: {}
-  heading?: {}
-  heading1?: { fontSize: number; lineHeight: number }
-  em?: { lineHeight: number }
-  list?: {}
-  tableHeader?: {}
-  headingContainer?: {
-    marginHorizontal: number
-    flexDirection: string
-    paddingHorizontal: number
-    marginBottom: number
-    marginTop: number
-  }
-  heading2?: { fontSize: number; lineHeight: number }
-  heading3?: { fontSize: number; lineHeight: number }
-  heading4?: { fontSize: number; lineHeight: number }
-  heading5?: { fontSize: number; lineHeight: number }
-  heading6?: { fontSize: number; lineHeight: number }
-  inlineCode?: {
-    fontFamily: string
-    borderRadius: number
-    borderWidth: number
-    fontWeight: string
-  }
-  listUnorderedItem?: { alignItems: string; flexDirection: string; justifyContent: string }
+export type MarkdownStyles = {
+  headingBorder?: ViewStyle
+  linkLabel?: TextStyle
+  paragraph?: TextStyle
+  strong?: TextStyle
+  link?: TextStyle
+  listOrdered?: ViewStyle
+  del?: TextStyle
+  hr?: ViewStyle
+  tableRow?: ViewStyle
+  tableHeaderCell?: ViewStyle
+  div?: ViewStyle
+  hardbreak?: ViewStyle
+  view?: ViewStyle
+  listUnorderedItemText?: TextStyle
+  listOrderedItemIcon?: ViewStyle
+  codeBlock?: TextStyle
+  root?: ViewStyle
+  listItemText?: TextStyle
+  listUnordered?: ViewStyle
+  text?: TextStyle
+  inline?: TextStyle
+  strikethrough?: TextStyle
+  table?: ViewStyle
+  listUnorderedItemIcon?: ViewStyle
+  listItem?: ViewStyle
+  tableBody?: ViewStyle
+  tableRowCell?: ViewStyle
+  img?: StyleProp<ImageStyle>
+  blockquote?: ViewStyle
+  listOrderedItem?: ViewStyle
+  paragraphText?: TextStyle
+  pre?: TextStyle
+  heading?: TextStyle
+  heading1?: TextStyle
+  em?: TextStyle
+  list?: ViewStyle
+  tableHeader?: ViewStyle
+  headingContainer?: ViewStyle
+  heading2?: TextStyle
+  heading3?: TextStyle
+  heading4?: TextStyle
+  heading5?: TextStyle
+  heading6?: TextStyle
+  inlineCode?: TextStyle
+  listUnorderedItem?: TextStyle
 }
 
 export const styles = (userStyles: MarkdownStyles = {}): MarkdownStyles => {
   let { TextSize } = createBaseSize()
 
   let defaultStyles: MarkdownStyles = StyleSheet.create({
-    root: {},
-    view: {},
-    text: {},
-    codeBlock: {
-      borderWidth: 1,
-      borderColor: '#CCCCCC',
-      backgroundColor: '#f5f5f5',
-      padding: 10,
-      borderRadius: 4,
+    root: {
+      flex: 1,
+      height: '100%',
     },
-    codeInline: {
+    view: {
+      flex: 1,
+    },
+    text: {},
+    inline: {},
+    codeBlock: {
       borderWidth: 1,
       borderColor: '#CCCCCC',
       backgroundColor: '#f5f5f5',
@@ -184,7 +136,7 @@ export const styles = (userStyles: MarkdownStyles = {}): MarkdownStyles => {
       backgroundColor: '#000000',
     },
     em: {
-      lineHeight: rem(TextSize.BODY * getLineHeightValue(1.6)),
+      lineHeight: TextSize.BODY * getLineHeightValue(1.6),
     },
     headingContainer: {
       flexDirection: 'row',
@@ -199,27 +151,27 @@ export const styles = (userStyles: MarkdownStyles = {}): MarkdownStyles => {
     heading: {},
     heading1: {
       fontSize: TextSize.HEADING,
-      lineHeight: rem(TextSize.HEADING * getLineHeightValue(1.25)),
+      lineHeight: TextSize.HEADING * getLineHeightValue(1.25),
     },
     heading2: {
       fontSize: TextSize.LARGE,
-      lineHeight: rem(TextSize.LARGE * getLineHeightValue(1.25)),
+      lineHeight: TextSize.LARGE * getLineHeightValue(1.25),
     },
     heading3: {
       fontSize: TextSize.MEDIUM,
-      lineHeight: rem(TextSize.MEDIUM * getLineHeightValue(1.25)),
+      lineHeight: TextSize.MEDIUM * getLineHeightValue(1.25),
     },
     heading4: {
       fontSize: TextSize.BODY,
-      lineHeight: rem(TextSize.BODY * getLineHeightValue(1.4)),
+      lineHeight: TextSize.BODY * getLineHeightValue(1.4),
     },
     heading5: {
       fontSize: TextSize.BODY_SMALL,
-      lineHeight: rem(TextSize.BODY_SMALL * getLineHeightValue(1.4)),
+      lineHeight: TextSize.BODY_SMALL * getLineHeightValue(1.4),
     },
     heading6: {
       fontSize: TextSize.SMALL,
-      lineHeight: rem(TextSize.SMALL * getLineHeightValue(1.4)),
+      lineHeight: TextSize.SMALL * getLineHeightValue(1.4),
     },
     hr: {
       backgroundColor: '#000000',
@@ -232,7 +184,7 @@ export const styles = (userStyles: MarkdownStyles = {}): MarkdownStyles => {
       marginBottom: 20,
       marginTop: 20,
       backgroundColor: '#f3f3f3',
-      lineHeight: rem(TextSize.BODY * getLineHeightValue(1.6)),
+      lineHeight: TextSize.BODY * getLineHeightValue(1.6),
     },
     inlineCode: {
       borderRadius: 3,
@@ -249,13 +201,11 @@ export const styles = (userStyles: MarkdownStyles = {}): MarkdownStyles => {
     listUnordered: {
       marginBottom: 20,
     },
-
     listUnorderedItem: {
       flexDirection: 'row',
       justifyContent: 'flex-start',
       alignItems: 'baseline',
     },
-
     listUnorderedItemIcon: {
       marginLeft: 2,
       marginRight: 10,
@@ -263,11 +213,11 @@ export const styles = (userStyles: MarkdownStyles = {}): MarkdownStyles => {
       width: 4,
       aspectRatio: 1,
       borderRadius: 4,
-      lineHeight: rem(TextSize.BODY * getLineHeightValue(1.6)),
+      lineHeight: TextSize.BODY * getLineHeightValue(1.6),
       alignSelf: 'flex-start',
     },
     listUnorderedItemText: {
-      lineHeight: rem(TextSize.BODY * getLineHeightValue(1.6)),
+      lineHeight: TextSize.BODY * getLineHeightValue(1.6),
     },
     listOrdered: {},
     listOrderedItem: {
@@ -290,7 +240,7 @@ export const styles = (userStyles: MarkdownStyles = {}): MarkdownStyles => {
     },
     paragraphText: {
       fontSize: TextSize.BODY,
-      lineHeight: rem(TextSize.BODY * getLineHeightValue(1.6)),
+      lineHeight: TextSize.BODY * getLineHeightValue(1.6),
     },
     hardbreak: {
       width: '100%',
@@ -325,9 +275,7 @@ export const styles = (userStyles: MarkdownStyles = {}): MarkdownStyles => {
     pre: {},
     link: {},
     linkLabel: {},
-    image: {
-      flex: 1,
-    },
+    img: {},
   })
 
   return { ...defaultStyles, ...userStyles }
