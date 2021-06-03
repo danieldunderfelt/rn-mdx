@@ -1,7 +1,7 @@
-import { Linking } from 'react-native';
+import { Linking } from 'react-native'
 
 export default function openUrl(url) {
-  if( url ) {
-    Linking.openURL(url);
+  if (url) {
+    Linking.openURL(url)
   }
 }
