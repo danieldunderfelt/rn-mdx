@@ -16,54 +16,6 @@ export function getLineHeightValue(val: number) {
   return val
 }
 
-let BaseTextSize = {
-  DETAIL: platformValue(10),
-  SMALL: platformValue(13),
-  BODY_SMALL: platformValue(16),
-  BODY: platformValue(20),
-  BODY_LARGE: platformValue(22),
-  MEDIUM: platformValue(24),
-  LARGE: platformValue(28),
-  HEADING: platformValue(40),
-}
-
-export let TextSize = {
-  DETAIL: BaseTextSize.DETAIL,
-  SMALL: BaseTextSize.SMALL,
-  BODY_SMALL: BaseTextSize.BODY_SMALL,
-  BODY: BaseTextSize.BODY,
-  BODY_LARGE: BaseTextSize.BODY_LARGE,
-  MEDIUM: BaseTextSize.MEDIUM,
-  LARGE: BaseTextSize.LARGE,
-  HEADING: BaseTextSize.HEADING,
-}
-
-export function createBaseSize() {
-  BaseTextSize = {
-    DETAIL: platformValue(10),
-    SMALL: platformValue(13),
-    BODY_SMALL: platformValue(16),
-    BODY: platformValue(18),
-    BODY_LARGE: platformValue(20),
-    MEDIUM: platformValue(22),
-    LARGE: platformValue(28),
-    HEADING: platformValue(40),
-  }
-
-  TextSize = {
-    DETAIL: BaseTextSize.DETAIL,
-    SMALL: BaseTextSize.SMALL,
-    BODY_SMALL: BaseTextSize.BODY_SMALL,
-    BODY: BaseTextSize.BODY,
-    BODY_LARGE: BaseTextSize.BODY_LARGE,
-    MEDIUM: BaseTextSize.MEDIUM,
-    LARGE: BaseTextSize.LARGE,
-    HEADING: BaseTextSize.HEADING,
-  }
-
-  return { BaseTextSize, TextSize }
-}
-
 export type MarkdownStyles = {
   headingBorder?: ViewStyle
   linkLabel?: TextStyle
@@ -113,7 +65,16 @@ export type MarkdownStyles = {
 }
 
 export const styles = (userStyles: MarkdownStyles = {}): MarkdownStyles => {
-  let { TextSize } = createBaseSize()
+  const TextSize = {
+    DETAIL: platformValue(10),
+    SMALL: platformValue(13),
+    BODY_SMALL: platformValue(16),
+    BODY: platformValue(18),
+    BODY_LARGE: platformValue(20),
+    MEDIUM: platformValue(22),
+    LARGE: platformValue(28),
+    HEADING: platformValue(40),
+  }
 
   let defaultStyles: MarkdownStyles = StyleSheet.create({
     root: {
