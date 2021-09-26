@@ -8,14 +8,6 @@ function platformValue(val: number) {
   return val
 }
 
-export function getLineHeightValue(val: number) {
-  if (Platform.OS === 'ios') {
-    return val * 1.05
-  }
-
-  return val
-}
-
 export type MarkdownStyles = {
   headingBorder?: ViewStyle
   linkLabel?: TextStyle
@@ -96,9 +88,7 @@ export const styles = (userStyles: MarkdownStyles = {}): MarkdownStyles => {
     del: {
       backgroundColor: '#000000',
     },
-    em: {
-      lineHeight: TextSize.BODY * getLineHeightValue(1.6),
-    },
+    em: {},
     headingContainer: {
       flexDirection: 'row',
       paddingHorizontal: 20,
@@ -112,27 +102,21 @@ export const styles = (userStyles: MarkdownStyles = {}): MarkdownStyles => {
     heading: {},
     heading1: {
       fontSize: TextSize.HEADING,
-      lineHeight: TextSize.HEADING * getLineHeightValue(1.25),
     },
     heading2: {
       fontSize: TextSize.LARGE,
-      lineHeight: TextSize.LARGE * getLineHeightValue(1.25),
     },
     heading3: {
       fontSize: TextSize.MEDIUM,
-      lineHeight: TextSize.MEDIUM * getLineHeightValue(1.25),
     },
     heading4: {
       fontSize: TextSize.BODY,
-      lineHeight: TextSize.BODY * getLineHeightValue(1.4),
     },
     heading5: {
       fontSize: TextSize.BODY_SMALL,
-      lineHeight: TextSize.BODY_SMALL * getLineHeightValue(1.4),
     },
     heading6: {
       fontSize: TextSize.SMALL,
-      lineHeight: TextSize.SMALL * getLineHeightValue(1.4),
     },
     hr: {
       backgroundColor: '#000000',
@@ -145,7 +129,6 @@ export const styles = (userStyles: MarkdownStyles = {}): MarkdownStyles => {
       marginBottom: 20,
       marginTop: 20,
       backgroundColor: '#f3f3f3',
-      lineHeight: TextSize.BODY * getLineHeightValue(1.6),
     },
     inlineCode: {
       borderRadius: 3,
@@ -174,12 +157,9 @@ export const styles = (userStyles: MarkdownStyles = {}): MarkdownStyles => {
       width: 4,
       aspectRatio: 1,
       borderRadius: 4,
-      lineHeight: TextSize.BODY * getLineHeightValue(1.6),
       alignSelf: 'flex-start',
     },
-    listUnorderedItemText: {
-      lineHeight: TextSize.BODY * getLineHeightValue(1.6),
-    },
+    listUnorderedItemText: {},
     listOrdered: {},
     listOrderedItem: {
       flexDirection: 'row',
@@ -201,7 +181,6 @@ export const styles = (userStyles: MarkdownStyles = {}): MarkdownStyles => {
     },
     paragraphText: {
       fontSize: TextSize.BODY,
-      lineHeight: TextSize.BODY * getLineHeightValue(1.6),
     },
     hardbreak: {
       width: '100%',

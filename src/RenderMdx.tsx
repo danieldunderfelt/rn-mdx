@@ -29,10 +29,6 @@ export function RenderMdx({
     [components, defaultComponents]
   )
 
-  if (!children) {
-    return null
-  }
-
   return (
     <MDX components={mdxComponents} scope={contentScope}>
       {children}
