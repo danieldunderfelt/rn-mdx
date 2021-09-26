@@ -12,7 +12,8 @@
     "lint:fix": "eslint '**/*.{js,ts,tsx}' --quiet --fix"
   },
   "files": [
-    "lib/**/*"
+    "lib/**/*",
+    "rn-mdx.d.ts"
   ],
   "keywords": [],
   "author": "Daniel Dunderfelt",
