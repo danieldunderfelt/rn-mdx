@@ -36,7 +36,7 @@
   },
   "peerDependencies": {
     "react": "^16.10.0",
-    "react-native": "^0.61.0"
+    "react-native": "*"
   },
   "dependencies": {
     "@mdx-js/runtime": "^2.0.0-next.9",
