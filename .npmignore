@@ -1,2 +1,3 @@
 node_modules
 packages/rn-mdx-example
+**/node_modules
