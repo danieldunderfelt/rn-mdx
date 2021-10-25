@@ -1,27 +1,26 @@
 {
-  "name": "rn-mdx",
-  "version": "0.0.5",
-  "description": "Show MDX content in React-Native. Expo compatible.",
-  "main": "lib/index.js",
-  "module": "src/index.ts",
+  "name": "rn-mdx-root",
+  "version": "0.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:danieldunderfelt/rn-mdx.git",
+  "author": "Daniel Dunderfelt <daniel@developsuperpowers.com>",
+  "license": "MIT",
+  "private": true,
   "scripts": {
-    "test": "echo \"No test specified\"",
-    "build": "tsc",
+    "setup:git-hooks": "yarn husky uninstall && yarn husky install || exit 0",
     "format": "prettier --write \"**/*.{tsx,ts,js,json}\"",
     "lint": "eslint '**/*.{js,ts,tsx}'",
     "lint:fix": "eslint '**/*.{js,ts,tsx}' --quiet --fix"
   },
-  "files": [
-    "lib/**/*",
-    "rn-mdx.d.ts"
-  ],
-  "keywords": [],
-  "author": "Daniel Dunderfelt",
-  "license": "MIT",
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged && lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*/**/*.{js,ts,tsx}": "eslint --max-warnings 0"
+  },
   "devDependencies": {
-    "@types/mdx-js__react": "^1.5.3",
-    "@types/react": "^16.14.8",
-    "@types/react-native": "^0.61.0",
     "@typescript-eslint/eslint-plugin": "^4.22.1",
     "@typescript-eslint/parser": "^4.22.1",
     "eslint": "^7.27.0",
@@ -30,16 +29,15 @@
     "eslint-plugin-react": "^7.23.2",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-react-native": "^3.11.0",
-    "prettier": "^2.3.0",
-    "react": "^16.14.0",
-    "typescript": "^4.3.2"
+    "expo-yarn-workspaces": "^1.6.0",
+    "husky": "^7.0.2",
+    "lint-staged": "^11.1.2",
+    "metro-config": "^0.66.2",
+    "prettier": "^2.3.0"
   },
-  "peerDependencies": {
-    "react": "^16.10.0",
-    "react-native": "*"
-  },
-  "dependencies": {
-    "@mdx-js/runtime": "^2.0.0-next.9",
-    "react-native-fit-image": "^1.5.5"
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
   }
 }

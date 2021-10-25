@@ -1,14 +1,13 @@
 {
   "compilerOptions": {
-    "outDir": "lib",
-    "module": "es6",
-    "target": "es6",
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "node",
     "lib": ["dom", "esnext"],
     "jsx": "react-native",
     "sourceMap": true,
     "declaration": true,
     "skipLibCheck": true,
-    "moduleResolution": "node",
     "noUnusedLocals": true,
     "noUnusedParameters": false,
     "esModuleInterop": true,
@@ -17,8 +16,9 @@
     "noImplicitAny": false,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./packages",
+    "isolatedModules": true
   },
-  "include": ["src"],
   "exclude": ["node_modules", "lib", "**/__tests__/*"]
 }
