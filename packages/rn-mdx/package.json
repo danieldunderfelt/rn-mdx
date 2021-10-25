@@ -3,7 +3,7 @@
   "version": "0.0.5",
   "description": "Show MDX content in React-Native. Expo compatible.",
   "main": "lib/index.js",
-  "module": "lib/index.ts",
+  "module": "src/index.ts",
   "types": "lib/index.d.ts",
   "scripts": {
     "test": "echo \"No test specified\"",
@@ -20,14 +20,13 @@
     "@types/mdx-js__react": "^1.5.3",
     "@types/react": "^16.14.8",
     "@types/react-native": "^0.61.0",
-    "expo-yarn-workspaces": "^1.6.0",
-    "react": "^16.14.0",
-    "react-native": "^0.63.4",
-    "typescript": "^4.4.4"
+    "react": "17.0.1",
+    "react-native": "0.64.2",
+    "typescript": "~4.3.5"
   },
   "peerDependencies": {
-    "react": "^16.10.0",
-    "react-native": "*"
+    "react": ">=17.*",
+    "react-native": ">=64.*"
   },
   "dependencies": {
     "@mdx-js/runtime": "^2.0.0-next.9",
