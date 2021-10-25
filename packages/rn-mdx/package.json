@@ -3,8 +3,10 @@
   "version": "0.0.6",
   "description": "Show MDX content in React-Native. Expo compatible.",
   "main": "lib/index.js",
-  "module": "src/index.ts",
+  "module": "lib/index.js",
   "types": "lib/index.d.ts",
+  "react-native": "lib/index.js",
+  "source": "src/index.ts",
   "scripts": {
     "test": "echo \"No test specified\"",
     "build": "tsc"
