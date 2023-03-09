@@ -30,7 +30,7 @@
   },
   "peerDependencies": {
     "react": ">=17.*",
-    "react-native": ">=64.*"
+    "react-native": ">=0.64.*"
   },
   "dependencies": {
     "@mdx-js/runtime": "^2.0.0-next.9",
